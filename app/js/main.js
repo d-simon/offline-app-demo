@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    Offline.options = {checks: {xhr: {url: 'http://www.google.com'}}};
+
     angular.module('offlineApp', [])
     .controller('AppCtrl', ['$scope', function ($scope) {
         $scope.online = Offline.state || false;

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" manifest="offlineapp.appcache"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" manifest="offlineapp.appcache"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -71,9 +71,6 @@
     </div> <!-- /container -->
 
         <script src="components/offline/offline.min.js"></script>
-        <script type="application/javascript">
-            Offline.options = {checks: {xhr: {url: 'http://www.google.com'}}};
-        </script>
         <script src="js/vendor/jquery-1.11.0.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="components/angular/angular.js"></script>

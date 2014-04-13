@@ -1,0 +1,12 @@
+CACHE MANIFEST
+
+CACHE:
+index.html
+app.full.min.js
+css/app.full.min.css
+
+FALLBACK:
+/ /index.html
+
+NETWORK:
+*

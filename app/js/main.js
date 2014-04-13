@@ -2,7 +2,7 @@
     'use strict';
 
     Offline.options = {
-        checkOnLoad: false,
+        checkOnLoad: true,
         checks: {xhr: {url: 'http://www.google.com'}}
     };
 

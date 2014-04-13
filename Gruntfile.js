@@ -105,14 +105,8 @@ module.exports = function(grunt) {
         },
         ngmin: {
             main: {
-                src:'temp/app.full.js',
-                dest: 'temp/app.full.js'
-            }
-        },
-        less: {
-            main: {
-                src:['<%= dom_munger.data.appless %>'],
-                dest:'temp/app.css'
+                src:'<%= dom_munger.data.appjs %>',
+                dest: '<%= dom_munger.data.appjs %>'
             }
         },
         cssmin: {
@@ -122,15 +116,19 @@ module.exports = function(grunt) {
             }
         },
         concat: {
-            main: {
+            build: {
+                src: ['<%= dom_munger.data.appminjs %>'],
+                dest: 'dist/app.full.min.js'
+            },
+            dev: {
                 src: ['<%= dom_munger.data.appjs %>'],
-                dest: 'temp/app.full.js'
+                dest: 'dist/app.full.min.js'
             }
         },
         uglify: {
             main: {
-                src: 'temp/app.full.js',
-                dest:'dist/app.full.min.js'
+                src: '<%= dom_munger.data.appjs %>',
+                dest:'<%= dom_munger.data.appminjs %>'
             }
         },
         htmlmin: {
@@ -151,7 +149,8 @@ module.exports = function(grunt) {
     grunt.registerTask('server', ['server:local']);
     grunt.registerTask('server:local', ['jshint', 'connect:server', 'watch:main']);
 
-    grunt.registerTask('build',['jshint','clean:before','dom_munger:readcss','dom_munger:readless','dom_munger:readscripts','cssmin','concat','ngmin','uglify','copy','dom_munger:removecss','dom_munger:removescripts','htmlmin','clean:after']);
+    grunt.registerTask('build',['jshint','clean:before','dom_munger:readcss','dom_munger:readless','dom_munger:readscripts','cssmin','ngmin','uglify','concat:build','copy','dom_munger:removecss','dom_munger:removescripts','htmlmin','clean:after']);
+    grunt.registerTask('build:dev',['jshint','clean:before','dom_munger:readcss','dom_munger:readless','dom_munger:readscripts','cssmin' ,'concat:dev','copy','dom_munger:removecss','dom_munger:removescripts','clean:after']);
 
 
     grunt.registerTask('default', ['build']);

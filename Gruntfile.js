@@ -44,75 +44,93 @@ module.exports = function(grunt) {
             files: ['app/js/**/*.js'],
         },
         clean: {
-            before:{
-                src:['dist', 'temp']
+            before: {
+                src: ['dist', 'temp']
             },
             after: {
-                src:['temp']
+                src: ['temp']
             }
         },
         copy: {
             main: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'app/',
-                        src: [
-                            'index.html',
-                            '.htaccess',
-                            'offlineapp.appcache',
-                            'favicon.ico',
-                            'img/**'
-                        ],
-                        dest: 'dist/'
-                    }
-                ]
+                files: [{
+                    expand: true,
+                    cwd: 'app/',
+                    src: [
+                        'index.html',
+                        '.htaccess',
+                        'favicon.ico',
+                        'img/**'
+                    ],
+                    dest: 'dist/'
+                }]
             },
         },
-        dom_munger:{
+        dom_munger: {
             readscripts: {
                 options: {
-                    read:{selector:'script[data-build!="exclude"]',attribute:'src',writeto:'appjs', isPath:true}
+                    read: {
+                        selector: 'script[data-build!="exclude"]',
+                        attribute: 'src',
+                        writeto: 'appjs',
+                        isPath: true
+                    }
                 },
-                src:'app/index.html'
+                src: 'app/index.html'
             },
             readcss: {
                 options: {
-                    read:{selector:'link[rel="stylesheet"]',attribute:'href',writeto:'appcss', isPath:true}
+                    read: {
+                        selector: 'link[rel="stylesheet"]',
+                        attribute: 'href',
+                        writeto: 'appcss',
+                        isPath: true
+                    }
                 },
-                src:'app/index.html'
+                src: 'app/index.html'
             },
             readless: {
                 options: {
-                    read:{selector:'link[rel="stylesheet/less"]',attribute:'href',writeto:'appless', isPath:true}
+                    read: {
+                        selector: 'link[rel="stylesheet/less"]',
+                        attribute: 'href',
+                        writeto: 'appless',
+                        isPath: true
+                    }
                 },
-                src:'app/index.html'
+                src: 'app/index.html'
             },
             removescripts: {
-                options:{
-                    remove:'script[data-remove!="exclude"]',
-                    append:{selector:'head',html:'<script src="app.full.min.js"></script>'}
+                options: {
+                    remove: 'script[data-remove!="exclude"]',
+                    append: {
+                        selector: 'head',
+                        html: '<script src="app.full.min.js"></script>'
+                    }
                 },
-                src:'dist/index.html'
+                src: 'dist/index.html'
             },
             removecss: {
-                options:{
-                    remove:'link[data-remove!="exclude"]',
-                    append:{selector:'head',html:'<link rel="stylesheet" href="css/app.full.min.css">'}
+                options: {
+                    remove: 'link[data-remove!="exclude"]',
+                    append: {
+                        selector: 'head',
+                        html: '<link rel="stylesheet" href="css/app.full.min.css">'
+                    }
                 },
-                src:'dist/index.html'
+                src: 'dist/index.html'
             }
         },
         ngmin: {
             main: {
-                src:'<%= dom_munger.data.appjs %>',
+                src: '<%= dom_munger.data.appjs %>',
                 dest: '<%= dom_munger.data.appjs %>'
             }
         },
         cssmin: {
             main: {
-                src:['temp/app.css', '<%= dom_munger.data.appcss %>'],
-                dest:'dist/css/app.full.min.css'
+                src: ['temp/app.css', '<%= dom_munger.data.appcss %>'],
+                dest: 'dist/css/app.full.min.css'
             }
         },
         concat: {
@@ -128,7 +146,7 @@ module.exports = function(grunt) {
         uglify: {
             main: {
                 src: '<%= dom_munger.data.appjs %>',
-                dest:'<%= dom_munger.data.appminjs %>'
+                dest: '<%= dom_munger.data.appminjs %>'
             }
         },
         htmlmin: {
@@ -142,6 +160,19 @@ module.exports = function(grunt) {
                 }
             }
         },
+        manifest: {
+            generate: {
+                options: {
+                    basePath: "dist/",
+                    network: ["check-online.gif"],
+                    fallback: ["/ /index.html"],
+                    preferOnline: false,
+                    timestamp: true
+                },
+                src: ['**/*.html','**/*.js','**/*.css','**/*.png','**/*.ico'],
+                dest: "dist/offlineapp.appcache"
+            }
+        }
     });
 
     require('load-grunt-tasks')(grunt);
@@ -149,8 +180,8 @@ module.exports = function(grunt) {
     grunt.registerTask('server', ['server:local']);
     grunt.registerTask('server:local', ['jshint', 'connect:server', 'watch:main']);
 
-    grunt.registerTask('build',['jshint','clean:before','dom_munger:readcss','dom_munger:readless','dom_munger:readscripts','cssmin','ngmin','uglify','concat:build','copy','dom_munger:removecss','dom_munger:removescripts','htmlmin','clean:after']);
-    grunt.registerTask('build:dev',['jshint','clean:before','dom_munger:readcss','dom_munger:readless','dom_munger:readscripts','cssmin' ,'concat:dev','copy','dom_munger:removecss','dom_munger:removescripts','clean:after']);
+    grunt.registerTask('build', ['jshint', 'clean:before', 'dom_munger:readcss', 'dom_munger:readless', 'dom_munger:readscripts', 'cssmin', 'ngmin', 'uglify', 'concat:build', 'copy', 'dom_munger:removecss', 'dom_munger:removescripts', 'htmlmin', 'clean:after', 'manifest:generate']);
+    grunt.registerTask('build:dev', ['jshint', 'clean:before', 'dom_munger:readcss', 'dom_munger:readless', 'dom_munger:readscripts', 'cssmin', 'concat:dev', 'copy', 'dom_munger:removecss', 'dom_munger:removescripts', 'clean:after', 'manifest:generate']);
 
 
     grunt.registerTask('default', ['build']);

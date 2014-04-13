@@ -11,12 +11,12 @@ Offline.options = {
         $scope.online = Offline.state || false;
         Offline.on("up", function () {
             $scope.$apply(function() {
-                $scope.online = false;
+                $scope.online = true;
             });
         }, this);
         Offline.on("down", function () {
             $scope.$apply(function() {
-                $scope.online = true;
+                $scope.online = false;
             });
         }, this);
     }]);

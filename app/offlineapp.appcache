@@ -1,4 +1,5 @@
 CACHE MANIFEST
+#VERSION 1123123123123132123asdasd
 
 CACHE:
 index.html
@@ -9,4 +10,4 @@ FALLBACK:
 / /index.html
 
 NETWORK:
-*
+check-online.gif

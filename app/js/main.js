@@ -1,10 +1,10 @@
+Offline.options = {
+    checkOnLoad: true,
+    checks: {xhr: {url: 'check-online.gif'}}
+};
+
 (function () {
     'use strict';
-
-    Offline.options = {
-        checkOnLoad: true,
-        checks: {xhr: {url: 'http://www.google.com'}}
-    };
 
     angular.module('offlineApp', [])
     .controller('AppCtrl', ['$scope', function ($scope) {

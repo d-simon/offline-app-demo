@@ -1,7 +1,10 @@
 (function () {
     'use strict';
 
-    Offline.options = {checks: {xhr: {url: 'http://www.google.com'}}};
+    Offline.options = {
+        checkOnLoad: false,
+        checks: {xhr: {url: 'http://www.google.com'}}
+    };
 
     angular.module('offlineApp', [])
     .controller('AppCtrl', ['$scope', function ($scope) {

@@ -1,24 +1,22 @@
-Offline.options = {
-    checkOnLoad: true,
-    checks: {xhr: {url: 'check-online.gif'}}
-};
-
 (function () {
     'use strict';
 
     angular.module('offlineApp', [])
-    .controller('AppCtrl', ['$scope', function ($scope) {
-        $scope.online = Offline.state || false;
-        Offline.on("up", function () {
-            $scope.$apply(function() {
-                $scope.online = true;
-            });
-        }, this);
-        Offline.on("down", function () {
+    .controller('AppCtrl', ['$scope', '$window', function ($scope, $window) {
+
+        $scope.online = navigator.onLine;
+
+        $window.addEventListener("offline", function () {
             $scope.$apply(function() {
                 $scope.online = false;
             });
-        }, this);
+        }, false);
+
+        $window.addEventListener("online", function () {
+            $scope.$apply(function() {
+                $scope.online = true;
+            });
+        }, false);
     }]);
 
 }());

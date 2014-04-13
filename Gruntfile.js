@@ -164,9 +164,8 @@ module.exports = function(grunt) {
             generate: {
                 options: {
                     basePath: "dist/",
-                    network: ["check-online.gif"],
-                    fallback: ["/ /index.html"],
-                    preferOnline: false,
+                    network: ["*"],
+                    preferOnline: true,
                     timestamp: true
                 },
                 src: ['**/*.html','**/*.js','**/*.css','**/*.png','**/*.ico'],

@@ -64,12 +64,14 @@
       <div class="col-lg-12" ng-controller="AppCtrl"><br>
         <div ng-show="online" ng-cloak>You're online</div>
         <div ng-hide="online" ng-cloak>You're offline</div>
+        <input type="text" ng-model="storeString" ng-change="saveStr()"/>
       </div>
     </div> <!-- /container -->
 
         <script src="js/vendor/jquery-1.11.0.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="components/angular/angular.js"></script>
+        <script src="js/storage.js"></script>
         <script src="js/main.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

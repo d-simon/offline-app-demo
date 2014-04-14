@@ -17,6 +17,14 @@
                 $scope.online = true;
             });
         }, false);
+
+        if (Modernizr.localstorage) {
+            $scope.storeString = localStorage.getItem('offlineApp.storeStr');
+        }
+        $scope.saveStr = function () {
+            localStorage.setItem('offlineApp.storeStr', $scope.storeString);
+        };
+
     }]);
 
 }());

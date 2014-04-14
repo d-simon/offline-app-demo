@@ -45,10 +45,7 @@ module.exports = function(grunt) {
         },
         clean: {
             before: {
-                src: ['dist', 'temp']
-            },
-            after: {
-                src: ['temp']
+                src: ['dist']
             }
         },
         copy: {
@@ -89,17 +86,6 @@ module.exports = function(grunt) {
                 },
                 src: 'app/index.html'
             },
-            readless: {
-                options: {
-                    read: {
-                        selector: 'link[rel="stylesheet/less"]',
-                        attribute: 'href',
-                        writeto: 'appless',
-                        isPath: true
-                    }
-                },
-                src: 'app/index.html'
-            },
             removescripts: {
                 options: {
                     remove: 'script[data-remove!="exclude"]',
@@ -121,23 +107,13 @@ module.exports = function(grunt) {
                 src: 'dist/index.html'
             }
         },
-        ngmin: {
-            main: {
-                src: '<%= dom_munger.data.appjs %>',
-                dest: '<%= dom_munger.data.appjs %>'
-            }
-        },
         cssmin: {
             main: {
-                src: ['temp/app.css', '<%= dom_munger.data.appcss %>'],
+                src: ['<%= dom_munger.data.appcss %>'],
                 dest: 'dist/css/app.full.min.css'
             }
         },
         concat: {
-            build: {
-                src: ['<%= dom_munger.data.appminjs %>'],
-                dest: 'dist/app.full.min.js'
-            },
             dev: {
                 src: ['<%= dom_munger.data.appjs %>'],
                 dest: 'dist/app.full.min.js'
@@ -146,7 +122,7 @@ module.exports = function(grunt) {
         uglify: {
             main: {
                 src: '<%= dom_munger.data.appjs %>',
-                dest: '<%= dom_munger.data.appminjs %>'
+                dest: 'dist/app.full.min.js'
             }
         },
         htmlmin: {
@@ -179,8 +155,8 @@ module.exports = function(grunt) {
     grunt.registerTask('server', ['server:local']);
     grunt.registerTask('server:local', ['jshint', 'connect:server', 'watch:main']);
 
-    grunt.registerTask('build', ['jshint', 'clean:before', 'dom_munger:readcss', 'dom_munger:readless', 'dom_munger:readscripts', 'cssmin', 'ngmin', 'uglify', 'concat:build', 'copy', 'dom_munger:removecss', 'dom_munger:removescripts', 'htmlmin', 'clean:after', 'manifest:generate']);
-    grunt.registerTask('build:dev', ['jshint', 'clean:before', 'dom_munger:readcss', 'dom_munger:readless', 'dom_munger:readscripts', 'cssmin', 'concat:dev', 'copy', 'dom_munger:removecss', 'dom_munger:removescripts', 'clean:after', 'manifest:generate']);
+    grunt.registerTask('build', ['jshint', 'clean:before', 'dom_munger:readcss', 'dom_munger:readscripts', 'cssmin', 'uglify', 'copy', 'dom_munger:removecss', 'dom_munger:removescripts', 'htmlmin', 'manifest:generate']);
+    grunt.registerTask('build:dev', ['jshint', 'clean:before', 'dom_munger:readcss', 'dom_munger:readscripts', 'cssmin', 'copy', 'concat:dev', 'dom_munger:removecss', 'dom_munger:removescripts', 'manifest:generate']);
 
 
     grunt.registerTask('default', ['build']);
